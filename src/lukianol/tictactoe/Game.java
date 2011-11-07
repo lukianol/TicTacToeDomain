@@ -9,8 +9,14 @@ import lukianol.tictactoe.resources.Exceptions;
 
 public final class Game implements IGame {
 	
+	public final static int DefaultPlaygroundSize = 3;
+	
 	public Game(){
-		this(null, 3);
+		this(null, DefaultPlaygroundSize);
+	}
+	
+	public Game(GameEventListener listener){
+		this(listener, DefaultPlaygroundSize);
 	}
 	
 	public Game(GameEventListener listener, int playgroundSize){
@@ -30,7 +36,10 @@ public final class Game implements IGame {
 		if (!isPlaying())
 			throw new TicTacToeException(String.format(Exceptions.string(Exceptions.CAN_NOT_STROKE_F), getGameState()));
 		
-		getField(position).setStroke(getCurrentStroke());
+		Field field = getField(position);
+		field = getField(position);
+		field.setStroke(getCurrentStroke());
+		invokeFieldStroked(field);		
 		
 		GameStateResult result = _stateHandler.handleState(this);
 		GameState newState = result.getGameState();
@@ -40,14 +49,14 @@ public final class Game implements IGame {
 		else 
 		{
 			if (newState == GameState.Won)
-				_wonFields = result.getWonFields();
+				_wonPositions = result.getWonPositions();
 			
 			setGameState(newState);
 		}
 	}
 
-	public Field[] getWonFields(){
-		return _wonFields;
+	public Position[] getWonPositions(){
+		return _wonPositions;
 	}
 		
 	public StrokeKind getCurrentStroke(){
@@ -83,17 +92,21 @@ public final class Game implements IGame {
 	public Field getField(int column, int row){
 		return _fields[column][row];
 	}
+
+	public void dispose(){
+		_gameEventListeners.clear();
+	}
 	
 	private void invokeGameEventListeners(Invoke invoker){
 		for(GameEventListener listener : _gameEventListeners){
 			invoker.Action(listener);
 		}			
 	}
-	
+		
 	private void invokeGameStateChanged(final GameState gameState){
 		invokeGameEventListeners(new Invoke(){
 			public void Action(GameEventListener listener) {
-				listener.GameStateChanged(_this, gameState);				
+				listener.onGameStateChanged(_this, gameState);				
 			}
 		});
 	}
@@ -101,7 +114,15 @@ public final class Game implements IGame {
 	private void invokeCurrentStrokeChanged(final StrokeKind strokeKind){
 		invokeGameEventListeners(new Invoke(){
 			public void Action(GameEventListener listener) {
-				listener.CurrentStrokeChanged(_this, strokeKind);				
+				listener.onCurrentStrokeChanged(_this, strokeKind);				
+			}
+		});
+	}
+	
+	private void invokeFieldStroked(final Field field){
+		invokeGameEventListeners(new Invoke(){
+			public void Action(GameEventListener listener) {
+				listener.onFieldStroked(_this, field);				
 			}
 		});
 	}
@@ -160,7 +181,7 @@ public final class Game implements IGame {
 	private final IGame _this = this;
 	private final int _playgroundSize;
 	private final GameStateHandler _stateHandler = new DefaultGameStateHandler();
-	private Field[] _wonFields;
+	private Position[] _wonPositions;
 	
 	private interface Invoke{
 		void Action(GameEventListener listener);

@@ -2,7 +2,8 @@ package lukianol.tictactoe;
 
 public interface GameEventListener {
 	
-	void GameStateChanged(IGame game, GameState gameState);
-	void CurrentStrokeChanged(IGame game, StrokeKind stroke);
+	void onGameStateChanged(IGame game, GameState gameState);
+	void onCurrentStrokeChanged(IGame game, StrokeKind stroke);
+	void onFieldStroked(IGame game, Field field);
 
 }

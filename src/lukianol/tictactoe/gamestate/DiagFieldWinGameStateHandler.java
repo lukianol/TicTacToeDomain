@@ -2,6 +2,7 @@ package lukianol.tictactoe.gamestate;
 
 import lukianol.tictactoe.Field;
 import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.Position;
 
 public abstract class DiagFieldWinGameStateHandler extends GameStateHandlerBase {
 	
@@ -9,9 +10,10 @@ public abstract class DiagFieldWinGameStateHandler extends GameStateHandlerBase 
 	protected final GameStateResult onHandleState(IGame game){
 		
 		int playgroundSize = game.getPlaygroundSize();
-		Field[] fields = new Field[playgroundSize];		
-		fields[0] = getCurrentField(game, 0, 0);
-		Boolean rightStroke = fields[0].hasStroke();
+		Position[] positions = new Position[playgroundSize];
+		Field firstField = getCurrentField(game, 0, 0);
+		positions[0] = firstField.getPosition();
+		Boolean rightStroke = firstField.hasStroke();
 		
 		if (rightStroke) {
 			for(int c=0; c < playgroundSize - 1 && rightStroke;c++)
@@ -20,12 +22,12 @@ public abstract class DiagFieldWinGameStateHandler extends GameStateHandlerBase 
 						Field current = getCurrentField(game, c, r);
 						Field next = getNextField(game, c, r);					
 						rightStroke &= current.hasStroke() && (current.getStroke() == next.getStroke());
-						fields[c+1] = next;
+						positions[c+1] = next.getPosition();
 					}
 				}
 			
 			if (rightStroke)
-				return new GameStateResult(fields[0].getStroke(), fields);
+				return new GameStateResult(firstField.getStroke(), positions);
 		}
 		 
 		return GameStateResult.UndefinedResult;

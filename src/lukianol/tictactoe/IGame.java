@@ -20,6 +20,6 @@ public interface IGame {
 	
 	public abstract Boolean isPlaying();
 
-	public abstract Field[] getWonFields();
+	public abstract Position[] getWonPositions();
 
 }

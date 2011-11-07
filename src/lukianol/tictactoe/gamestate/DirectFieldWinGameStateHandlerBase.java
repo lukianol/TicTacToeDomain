@@ -2,6 +2,7 @@ package lukianol.tictactoe.gamestate;
 
 import lukianol.tictactoe.Field;
 import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.Position;
 
 public abstract class DirectFieldWinGameStateHandlerBase extends GameStateHandlerBase {
 	
@@ -16,19 +17,19 @@ public abstract class DirectFieldWinGameStateHandlerBase extends GameStateHandle
 			Boolean rightStroke = current.hasStroke();			
 			if (rightStroke)
 			{
-				Field[] fields = new Field[playgroundSize];	
-				fields[0] = current;
+				Position[] positions = new Position[playgroundSize];	
+				positions[0] = current.getPosition();
 				
 				for(int y = 1; y < playgroundSize && rightStroke; y++) {		
 					Field next = getCurrentField(game, x, y);
 					rightStroke &= next.getStroke() == current.getStroke();	
 					current = next;	
-					fields[y] = current;
+					positions[y] = current.getPosition();
 				}
 				
 				if (rightStroke)
 				{
-					return new GameStateResult(current.getStroke(), fields);
+					return new GameStateResult(current.getStroke(), positions);
 				}
 			}				
 		}

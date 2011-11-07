@@ -1,7 +1,7 @@
 package lukianol.tictactoe.gamestate;
 
-import lukianol.tictactoe.Field;
 import lukianol.tictactoe.GameState;
+import lukianol.tictactoe.Position;
 import lukianol.tictactoe.StrokeKind;
 import lukianol.tictactoe.resources.Exceptions;
 
@@ -9,7 +9,7 @@ public final class GameStateResult {
 	
 	private StrokeKind _winnerStroke;
 	private GameState _gameState;
-	private Field[] _wonFields;
+	private Position[] _wonPositions;
 	
 	private GameStateResult(){
 		
@@ -21,11 +21,11 @@ public final class GameStateResult {
 		_gameState = gameState;
 	}
 	
-	public GameStateResult(StrokeKind winnerStroke, Field[] wonFields){
+	public GameStateResult(StrokeKind winnerStroke, Position[] wonPositions){
 		
 		_gameState = GameState.Won;
 		_winnerStroke = winnerStroke;
-		this._wonFields = wonFields;
+		this._wonPositions = wonPositions;
 		
 	}
 
@@ -37,8 +37,8 @@ public final class GameStateResult {
 		return _gameState;
 	}
 
-	public Field[] getWonFields(){
-		return this._wonFields;
+	public Position[] getWonPositions(){
+		return this._wonPositions;
 	}
 	
 	public final static GameStateResult  UndefinedResult = new GameStateResult();
