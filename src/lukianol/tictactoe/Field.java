@@ -1,5 +1,7 @@
 package lukianol.tictactoe;
 
+import lukianol.tictactoe.resources.Exceptions;
+
 public final class Field {
 	
 	public Field(Position position){
@@ -16,8 +18,9 @@ public final class Field {
 	}
 	
 	public void setStroke(StrokeKind value) throws TicTacToeException{
-		if (_stroke != null)
-			throw new TicTacToeException("The field has been already filled");
+						
+		if (hasStroke())
+			throw new TicTacToeException(Exceptions.string(Exceptions.FIELD_ALREADY_STROKED));
 		
 		_stroke = value;
 	}

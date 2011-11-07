@@ -14,9 +14,6 @@ public final class Position {
 	public int getRow() {
 		return row;
 	}
-
-	private int column;
-	private int row;
 	
 	public final static Position Create(int column, int row){
 		return new Position(column, row);
@@ -45,5 +42,7 @@ public final class Position {
 	public String toString() {
 		return String.format("%d : %d", column, row);
 	}
-		
+	
+	private int column;
+	private int row;
 }

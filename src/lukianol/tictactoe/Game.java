@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import lukianol.tictactoe.gamestate.DefaultGameStateHandler;
 import lukianol.tictactoe.gamestate.GameStateHandler;
 import lukianol.tictactoe.gamestate.GameStateResult;
+import lukianol.tictactoe.resources.Exceptions;
 
-public class Game implements IGame {
+public final class Game implements IGame {
+	
+	public Game(){
+		this(null, 3);
+	}
 	
 	public Game(GameEventListener listener, int playgroundSize){
 		
 		if (playgroundSize <= 0)
-			throw new IllegalArgumentException("Playground size must be more than 0");
+			throw new IllegalArgumentException(Exceptions.string(Exceptions.PLAYGROUND_SIZE_GT_0));
 		
 		_playgroundSize = playgroundSize;
 		addGameEventListener(listener);			
@@ -19,14 +24,11 @@ public class Game implements IGame {
 		setGameState(GameState.Playing);
 		setCurrentStroke(StrokeKind.X);
 	}
-	
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#Stroke(lukianol.tictactoe.Position)
-	 */
-	public void Stroke(Position position) throws TicTacToeException{
+		
+	public void Stroke(Position position) throws TicTacToeException {
 		
 		if (!isPlaying())
-			throw new TicTacToeException(String.format("You can not stroke because the game state is '%s'", getGameState()));
+			throw new TicTacToeException(String.format(Exceptions.string(Exceptions.CAN_NOT_STROKE_F), getGameState()));
 		
 		getField(position).setStroke(getCurrentStroke());
 		
@@ -34,7 +36,7 @@ public class Game implements IGame {
 		GameState newState = result.getGameState();
 		
 		if (newState == GameState.Playing)
-			SwapStroke();
+			swapStroke();
 		else 
 		{
 			if (newState == GameState.Won)
@@ -47,54 +49,37 @@ public class Game implements IGame {
 	public Field[] getWonFields(){
 		return _wonFields;
 	}
-	
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#getCurrentStroke()
-	 */
+		
 	public StrokeKind getCurrentStroke(){
 		return _currentStroke;
 	}
-
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#getGameState()
-	 */
+	
 	public GameState getGameState(){
 		return _gameState;
 	}
-	
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#addGameEventListener(lukianol.tictactoe.GameEventListener)
-	 */
+		
 	public void addGameEventListener(GameEventListener listener){
 		if ((listener != null) && !_gameEventListeners.contains(listener))
 			_gameEventListeners.add(listener);
 	}
 	
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#removeGameEventListener(lukianol.tictactoe.GameEventListener)
-	 */
 	public void removeGameEventListener(GameEventListener listener){
 		if ((listener != null) &&_gameEventListeners.contains(listener))
 			_gameEventListeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#getField(lukianol.tictactoe.Position)
-	 */
 	public Field getField(Position position){
 		return getField(position.getColumn(), position.getRow());
 	}
-
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#getPlaygroundSize()
-	 */
+	
 	public int getPlaygroundSize(){
 		return this._playgroundSize;
 	}
+
+	public Boolean isPlaying() {
+		return this.getGameState() == GameState.Playing;
+	}
 	
-	/* (non-Javadoc)
-	 * @see lukianol.tictactoe.IGame#getField(int, int)
-	 */
 	public Field getField(int column, int row){
 		return _fields[column][row];
 	}
@@ -131,23 +116,25 @@ public class Game implements IGame {
 		invokeGameStateChanged(_gameState);
 	}
 	
-	private void SwapStroke(){
+	private void swapStroke(){
+		
 		StrokeKind stroke = getCurrentStroke();
 	
 		if (stroke == null)
-			throw new IllegalStateException("Stroke has to be initialized already");
+			throw new IllegalStateException(Exceptions.string(Exceptions.STROKE_NOT_INIT));
 		
 		switch(stroke){
 		case X:
-			setCurrentStroke(StrokeKind.O);
+			stroke = StrokeKind.O;
 			break;
 		case O:
-			setCurrentStroke(StrokeKind.X);
+			stroke = StrokeKind.X;
 			break;
 		default:
-			throw new UnsupportedOperationException("Only O's and X's are supported");
+			throw new UnsupportedOperationException(String.format(Exceptions.string(Exceptions.STROKEKIND_UNSUPPORTED_F), stroke));
 		}
-	
+		
+		setCurrentStroke(stroke);	
 	}
 	
 	private void initFields(){
@@ -157,8 +144,7 @@ public class Game implements IGame {
 		for(int c = 0; c < _playgroundSize; c++){
 			for (int r = 0; r < _playgroundSize; r++){
 				Position position = new Position(c, r); 
-				initField(position);
-				
+				initField(position);				
 			}
 		}
 	}
@@ -180,8 +166,5 @@ public class Game implements IGame {
 		void Action(GameEventListener listener);
 	}
 
-	public Boolean isPlaying() {
-		return this.getGameState() == GameState.Playing;
-	}
 		
 }

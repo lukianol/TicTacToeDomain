@@ -3,6 +3,7 @@ package lukianol.tictactoe.gamestate;
 import lukianol.tictactoe.Field;
 import lukianol.tictactoe.GameState;
 import lukianol.tictactoe.StrokeKind;
+import lukianol.tictactoe.resources.Exceptions;
 
 public final class GameStateResult {
 	
@@ -16,7 +17,7 @@ public final class GameStateResult {
 
 	public GameStateResult(GameState gameState){
 		if (gameState.equals(GameState.Won))
-			throw new IllegalArgumentException("Use a constructor with a winnerStroke instead");
+			throw new IllegalArgumentException(Exceptions.string(Exceptions.GAMERESULT_DIFFERENT_CTOR));
 		_gameState = gameState;
 	}
 	
