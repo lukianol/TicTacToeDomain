@@ -40,7 +40,10 @@ public final class Position {
 	public int hashCode() {
 		return column ^ 27 + row;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return String.format("%d : %d", column, row);
+	}
+		
 }
