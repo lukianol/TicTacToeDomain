@@ -21,5 +21,7 @@ public interface IGame {
 	public abstract Boolean isPlaying();
 
 	public abstract Position[] getWonPositions();
+	
+	public abstract void dispose();
 
 }
