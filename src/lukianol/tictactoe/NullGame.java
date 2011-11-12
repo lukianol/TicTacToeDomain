@@ -4,6 +4,10 @@ public final class NullGame implements IGame {
 	
 	public static final IGame Instance = new NullGame();
 	
+	public static boolean equals(IGame game){
+		return Instance.equals(game);
+	}
+	
 	private NullGame(){
 		
 	}
