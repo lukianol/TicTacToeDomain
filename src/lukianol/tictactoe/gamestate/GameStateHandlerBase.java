@@ -1,10 +1,10 @@
 package lukianol.tictactoe.gamestate;
 
-import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.GameBase;
 
 public abstract class GameStateHandlerBase implements GameStateHandler {
 
-	public final GameStateResult handleState(IGame game) {
+	public final GameStateResult handleState(GameBase game) {
 		
 		GameStateResult result = onHandleState(game);
 		
@@ -15,7 +15,7 @@ public abstract class GameStateHandlerBase implements GameStateHandler {
 		return result;
 	}
 	
-	protected GameStateResult onHandleState(IGame game){
+	protected GameStateResult onHandleState(GameBase game){
 		return GameStateResult.UndefinedResult;
 	}
 	

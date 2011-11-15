@@ -1,13 +1,13 @@
 package lukianol.tictactoe.gamestate;
 
 import lukianol.tictactoe.Field;
-import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.GameBase;
 import lukianol.tictactoe.Position;
 
 public abstract class DiagFieldWinGameStateHandler extends GameStateHandlerBase {
 	
 	@Override
-	protected final GameStateResult onHandleState(IGame game){
+	protected final GameStateResult onHandleState(GameBase game){
 		
 		int playgroundSize = game.getPlaygroundSize();
 		Position[] positions = new Position[playgroundSize];
@@ -33,6 +33,6 @@ public abstract class DiagFieldWinGameStateHandler extends GameStateHandlerBase 
 		return GameStateResult.UndefinedResult;
 	}
 	
-	protected abstract Field getNextField(IGame game, int x, int y);
-	protected abstract Field getCurrentField(IGame game, int x, int y);
+	protected abstract Field getNextField(GameBase game, int x, int y);
+	protected abstract Field getCurrentField(GameBase game, int x, int y);
 }

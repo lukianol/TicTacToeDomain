@@ -1,7 +1,7 @@
 package lukianol.tictactoe.gamestate;
 
 import lukianol.tictactoe.Field;
-import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.GameBase;
 
 public final class RowWinGameStateHandler extends DirectFieldWinGameStateHandlerBase {
 	
@@ -11,7 +11,7 @@ public final class RowWinGameStateHandler extends DirectFieldWinGameStateHandler
 	}
 	
 	@Override
-	protected Field getCurrentField(IGame game, int x, int y) {
+	protected Field getCurrentField(GameBase game, int x, int y) {
 		return game.getField(y, x);
 	}
 

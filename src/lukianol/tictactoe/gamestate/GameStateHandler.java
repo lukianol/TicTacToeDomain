@@ -1,9 +1,9 @@
 package lukianol.tictactoe.gamestate;
 
-import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.GameBase;
 
 public interface GameStateHandler {
 	
-	GameStateResult handleState(IGame game);
+	GameStateResult handleState(GameBase game);
 	
 }

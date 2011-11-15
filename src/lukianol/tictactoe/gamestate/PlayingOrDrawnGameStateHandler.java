@@ -1,11 +1,11 @@
 package lukianol.tictactoe.gamestate;
 
 import lukianol.tictactoe.GameState;
-import lukianol.tictactoe.IGame;
+import lukianol.tictactoe.GameBase;
 
 public final class PlayingOrDrawnGameStateHandler implements GameStateHandler {
 
-	public GameStateResult handleState(IGame game) {
+	public GameStateResult handleState(GameBase game) {
 		
 		int playgroundSize = game.getPlaygroundSize();
 		

@@ -7,7 +7,7 @@ import lukianol.tictactoe.gamestate.GameStateHandler;
 import lukianol.tictactoe.gamestate.GameStateResult;
 import lukianol.tictactoe.resources.Exceptions;
 
-public final class Game implements IGame {
+public final class Game extends GameBase {
 	
 	public final static int DefaultPlaygroundSize = 3;
 	
@@ -178,7 +178,7 @@ public final class Game implements IGame {
 	private GameState _gameState;
 	private Field[][] _fields;
 	private final ArrayList<GameEventListener> _gameEventListeners = new ArrayList<GameEventListener>();
-	private final IGame _this = this;
+	private final GameBase _this = this;
 	private final int _playgroundSize;
 	private final GameStateHandler _stateHandler = new DefaultGameStateHandler();
 	private Position[] _wonPositions;

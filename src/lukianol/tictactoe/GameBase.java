@@ -1,6 +1,8 @@
 package lukianol.tictactoe;
 
-public interface IGame {
+public abstract class GameBase {
+	
+	public static final GameBase Null = new NullGame();
 
 	public abstract void Stroke(Position position) throws TicTacToeException;
 
